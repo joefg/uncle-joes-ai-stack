@@ -4,7 +4,7 @@ services:
     container_name: ollama
     pull_policy: always
     ports:
-      - "11434:11434"
+      - "127.0.0.1:11434:11434"
     volumes:
       - ollama_data:/root/.ollama
     deploy:
@@ -19,9 +19,8 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
     ports:
-      - "3000:8080"
+      - "127.0.0.1:3000:8080"
     environment:
-      # This tells Open WebUI to look for the Ollama instance on the local network inside Docker
       - OLLAMA_BASE_URL=http://ollama:11434
     volumes:
       - open_webui_data:/app/data
