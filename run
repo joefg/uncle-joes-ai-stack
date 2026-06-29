@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+THISDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+function help(){
+cat << EOF
+Uncle Joe's AI Stack
+
+help              : Display help text
+restore           : Fetch dependencies
+build             : Build images
+lint              : Lint codebase
+dev               : Spawn a development environment
+serve             : Spawn prod service
+stop              : Halt prod service
+console <service> : Open an administration console for a service
+EOF
+}
+
+
+function run_restore(){
+    docker compose pull
+}
+
+function run_build(){
+    docker compose create
+}
+
+function run_lint(){
+    shellcheck "$(basename "$0")"
+}
+
+function run_dev(){
+    docker compose up
+}
+
+function run_serve(){
+    docker compose up -d
+}
+
+function run_stop(){
+    docker compose stop
+}
+
+function run_console(){
+    docker exec -it "$1" /bin/bash
+}
+
+function main(){
+    cd "$THISDIR"
+    cmd=${1-default}
+    shift || true
+    case "$cmd" in
+        help|default)
+            help "$@"
+            ;;
+        restore)
+            run_restore
+            ;;
+        build)
+            run_build
+            ;;
+        lint)
+            run_lint
+            ;;
+        dev)
+            run_dev
+            ;;
+        serve)
+            run_serve
+            ;;
+        stop)
+            run_stop
+            ;;
+        console)
+            run_console "$1"
+            ;;
+        *)
+            echo "no-op $cmd"
+            ;;
+    esac
+}
+
+main "$@"
