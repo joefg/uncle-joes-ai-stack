@@ -5,7 +5,8 @@ This is what I use for my AI compute needs.
 ## Included
 
 * Ollama, for inference;
-* Open WebUI, as a ChatGPT-like front-end.
+* Open WebUI, as a ChatGPT-like front-end;
+* Hermes, an agent.
 
 ## Prerequisites
 

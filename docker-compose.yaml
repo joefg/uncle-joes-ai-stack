@@ -2,7 +2,7 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
-    pull_policy: always
+    restart: unless-stopped
     ports:
       - "127.0.0.1:11434:11434"
     volumes:
@@ -14,10 +14,10 @@ services:
              - driver: nvidia
                count: all
                capabilities: [gpu]
-
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
+    restart: unless-stopped
     ports:
       - "127.0.0.1:3000:8080"
     environment:
@@ -26,9 +26,25 @@ services:
       - open_webui_data:/app/data
     depends_on:
       - ollama
+  hermes:
+    image: nousresearch/hermes-agent:latest
+    restart: unless-stopped
+    command: gateway run
+    ports:
+      - "127.0.0.1:8642:8642"
+      - "127.0.0.1:9119:9119"
+    volumes:
+      - ~/.hermes:/opt/data
+    environment:
+      - HERMES_DASHBOARD=1
+      - HERMES_DASHBOARD_BASIC_AUTH_USERNAME=${HERMES_DASHBOARD_BASIC_AUTH_USERNAME}
+      - HERMES_DASHBOARD_BASIC_AUTH_PASSWORD=${HERMES_DASHBOARD_BASIC_AUTH_PASSWORD}
+      - HERMES_DASHBOARD_BASIC_AUTH_SECRET=${HERMES_DASHBOARD_BASIC_AUTH_SECRET}
 
 volumes:
   ollama_data:
     driver: local
   open_webui_data:
+    driver: local
+  hermes_data:
     driver: local
