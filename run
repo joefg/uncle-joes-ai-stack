@@ -3,6 +3,7 @@
 set -euo pipefail
 THISDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# shellcheck source=/dev/null
 test -f "$THISDIR/.env" && source "$THISDIR/.env"
 
 function help(){
