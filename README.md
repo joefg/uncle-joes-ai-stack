@@ -33,3 +33,6 @@ serve             : Spawn prod service
 stop              : Halt prod service
 console <service> : Open an administration console for a service
 ```
+
+You will need to configure your environment variables, a
+sample is provided. Please change those variables.
