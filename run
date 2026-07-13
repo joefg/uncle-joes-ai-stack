@@ -3,6 +3,8 @@
 set -euo pipefail
 THISDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+test -f "$THISDIR/.env" && source "$THISDIR/.env"
+
 function help(){
 cat << EOF
 Uncle Joe's AI Stack
