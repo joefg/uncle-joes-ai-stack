@@ -40,23 +40,18 @@ sample is provided. Please change those variables.
 
 ## Configuration
 
-### ollama
+### Network access
 
-You may need to use `./run console ollama` to get a shell in the ollama
-container and `ollama pull` your models.
+> TL;DR Use a reverse proxy if you can't wall off the server behind
+> a NAT or a DMZ and access through Tailscale. Otherwise, localhost
+> only.
 
-The url of the API available inside the Docker network is going to be
-`http://ollama:11434/v1`, which doesn't require auth. This is inside
-the network. To use it outside of the docker network you would need
-to expose ollama to the network through `0.0.0.0`, and change
-the API location in your apps to `http://<your-hostname>:11434/v1`.
+By default, all services are bound to `127.0.0.1`, which means they
+are only accessible to `localhost`. For server use, you have two options:
 
-This is fine on a local network if you're just keeping it inside Tailscale.
-
-It is **profoundly unwise** to expose it through `0.0.0.0` (all network
-interfaces) to the outside world. If you want an exposed instance, you should
-put it behind a reverse proxy. You can do so with
-[Caddy](https://caddyserver.com/docs/). A `Caddyfile` for this would look like:
+1. Reverse proxy. This takes requests from an open port and forwards them to
+a service running on localhost only. Here's a basic
+[Caddy](https://caddyserver.com/docs) setup.
 
 ```Caddyfile
 ://api.yourdomain.com {
@@ -84,3 +79,19 @@ put it behind a reverse proxy. You can do so with
 
 This uses a Bearer token, which your harness or model of your choice
 can configure.
+
+2. You can expose services to `0.0.0.0`, meaning "all network devices".
+**This is profoundly unwise on almost all services**. If you can hide the
+device behind a NAT or a DMZ (and access it entirely though a VPN such as
+Tailscale) this is OK, but **never, ever expose things to 0.0.0.0 on
+a production server**.
+
+### ollama
+
+You may need to use `./run console ollama` to get a shell in the ollama
+container and `ollama pull` your models. Open WebUI can also do this
+in settings.
+
+The url of the API available inside the Docker network is going to be
+`http://ollama:11434/v1`, which doesn't require auth. This is inside
+the network. If you want to expose it to the wider network see above.
