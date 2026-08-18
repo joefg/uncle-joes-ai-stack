@@ -86,6 +86,11 @@ device behind a NAT or a DMZ (and access it entirely though a VPN such as
 Tailscale) this is OK, but **never, ever expose things to 0.0.0.0 on
 a production server**.
 
+3. You can (and should!) use Tailscale, but you may run into issues if you
+use Tailscale's SSH. It offers an authentication layer where you can log in
+with GitHub, but I find that most SSH utilities fall when doing so because
+Tailscale's SSH is an unofficial extension.
+
 ### ollama
 
 You may need to use `./run console ollama` to get a shell in the ollama
