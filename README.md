@@ -100,3 +100,17 @@ in settings.
 The url of the API available inside the Docker network is going to be
 `http://ollama:11434/v1`, which doesn't require auth. This is inside
 the network. If you want to expose it to the wider network see above.
+
+#### Common issues
+
+> It thinks for a few seconds then stops.
+
+There's a good chance your context window is too small. As a rule:
+
+| VRAM  | Context size (tokens) |
+| ----  | --------------------- |
+| <16GB | 4k                    |
+| >32GB | 32k                   |
+| >48GB | 256k                  |
+
+Update the `OLLAMA_CONTEXT_LENGTH` environment variable.
