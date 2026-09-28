@@ -32,6 +32,7 @@ services:
       - ollama
   hermes:
     image: nousresearch/hermes-agent:latest
+    container_name: hermes
     restart: unless-stopped
     command: gateway run
     ports:
@@ -49,6 +50,4 @@ volumes:
   ollama_data:
     driver: local
   open_webui_data:
-    driver: local
-  hermes_data:
     driver: local
