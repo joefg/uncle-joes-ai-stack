@@ -43,7 +43,7 @@ function run_serve(){
 }
 
 function run_stop(){
-    docker compose stop
+    docker compose down
 }
 
 function run_console(){
