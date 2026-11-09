@@ -7,6 +7,7 @@ This is what I use for my AI compute needs.
 * Ollama, for inference;
 * Open WebUI, as a ChatGPT-like front-end;
 * Hermes, an agent.
+* Beszel, a monitor.
 
 ## Prerequisites
 
@@ -114,3 +115,10 @@ There's a good chance your context window is too small. As a rule:
 | >48GB | 256k                  |
 
 Update the `OLLAMA_CONTEXT_LENGTH` environment variable.
+
+### Beszel
+
+To add localhost as a monitoring agent, you need to add
+a system through the `Add System` dialog, then copy/paste
+the SSH key identity and the token into the right places
+in your `.env` file.
